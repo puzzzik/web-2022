@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-
+from .permissions import IsStaff
 from app.serializers import *
 
 
@@ -22,8 +22,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering = ['name']
 
     def get_permissions(self):
-        if self.action == 'list' or self.action == 'retrieve' and self.detail:
+        if self.action == 'list':
             permission_classes = [IsAuthenticatedOrReadOnly]
+        elif self.action in ['retrieve', 'update', 'partial_update']:
+            permission_classes = [IsStaff]
         else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]

@@ -8,7 +8,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100, blank=True, null=True)
     type = models.CharField(max_length=100, blank=True, null=True)
-    price = models.CharField(max_length=100, blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
     strength = models.IntegerField(blank=True, null=True)
 
     def __str__(self) -> str:
