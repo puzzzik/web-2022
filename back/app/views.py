@@ -23,7 +23,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering = ['name']
 
     def get_permissions(self):
-        if self.action == 'list':
+        if self.action in ['list', 'retrieve']:
             permission_classes = [IsAuthenticatedOrReadOnly]
         elif self.action in ['retrieve', 'update', 'partial_update']:
             permission_classes = [IsStaff]

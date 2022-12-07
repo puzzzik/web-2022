@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tobacco',
-        'USER': 'puzzzik',
-        'PASSWORD': 'postgres',
+        'NAME': 'coffee',
+        'USER': 'egor',
+        'PASSWORD': '123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -206,6 +206,7 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
+    "Access-Control-Allow-Methods"
 ]
 
 CSRF_COOKIE_SECURE = True
