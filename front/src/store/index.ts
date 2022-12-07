@@ -1,11 +1,15 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import { tobaccoReducer } from "store/tobaccos/tobaccos.reducer";
+import { coffeeReducer } from "./products/products.reducer";
+import { authReducer } from "./auth/auth.reducer";
+import { cartReducer } from "./cart/cart.reducer";
 
 export const makeStore = () =>
     configureStore({
         reducer: {
-            tobacco: tobaccoReducer,
+            coffee: coffeeReducer,
+            auth: authReducer,
+            cart: cartReducer,
         },
     });
 

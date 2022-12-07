@@ -4,3 +4,6 @@
 venv/
 back/djangoenv
 __pycache__/
+node_modules/
+build/
+.idea/
