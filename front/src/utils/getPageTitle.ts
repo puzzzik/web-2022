@@ -2,8 +2,8 @@ export const getPageTitle = (path: string) => {
     switch (true) {
         case path === "/":
             return "Главная";
-        case path.includes("coffee"):
-            return "Заказ кофе";
+        case path.includes("product"):
+            return "Заказ табачного изделия";
         case path.includes("auth"):
             return "Авторизация";
         case path.includes("user"):

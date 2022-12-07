@@ -10,22 +10,22 @@ import {
 } from "./products.actions";
 
 export interface ProductState extends AsyncState {
-    coffee?: Product;
-    coffees?: Product[];
+    tobacco?: Product;
+    tobaccos?: Product[];
     availableBrands?: (string | undefined)[];
     error: unknown;
 }
 
 const initialState: ProductState = {
-    coffee: undefined,
-    coffees: [],
+    tobacco: undefined,
+    tobaccos: [],
     status: FetchStatus.IDLE,
     availableBrands: [],
     error: undefined,
 };
 
-const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
-    name: "coffee",
+const tobaccoSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
+    name: "tobacco",
     initialState,
     reducers: {
         reset: () => initialState,
@@ -37,8 +37,8 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
         });
         builder.addCase(createProductAction.fulfilled, (state, { payload }) => {
             state.status = FetchStatus.FULFILLED;
-            state.coffee = payload;
-            state.coffees = [...(state?.coffees ?? []), payload];
+            state.tobacco = payload;
+            state.tobaccos = [...(state?.tobaccos ?? []), payload];
         });
         builder.addCase(createProductAction.rejected, (state, { error }) => {
             state.status = FetchStatus.REJECTED;
@@ -56,7 +56,7 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
                 (product) => !availableBrands.includes(product.brand) && availableBrands.push(product.brand)
             );
             state.availableBrands = availableBrands;
-            state.coffees = payload;
+            state.tobaccos = payload;
         });
         builder.addCase(getProductListAction.rejected, (state, { error }) => {
             state.status = FetchStatus.REJECTED;
@@ -69,7 +69,7 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
         });
         builder.addCase(getSearchProductListAction.fulfilled, (state, { payload }) => {
             state.status = FetchStatus.FULFILLED;
-            state.coffees = payload;
+            state.tobaccos = payload;
         });
         builder.addCase(getSearchProductListAction.rejected, (state, { error }) => {
             state.status = FetchStatus.REJECTED;
@@ -82,7 +82,7 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
         });
         builder.addCase(getProductByIdAction.fulfilled, (state, { payload }) => {
             state.status = FetchStatus.FULFILLED;
-            state.coffee = payload;
+            state.tobacco = payload;
         });
         builder.addCase(getProductByIdAction.rejected, (state, { error }) => {
             state.status = FetchStatus.REJECTED;
@@ -93,7 +93,7 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
             state.error = null;
         });
         builder.addCase(deleteProductAction.fulfilled, (state, action) => {
-            state.coffees = state.coffees?.filter((coffee) => coffee.id !== action.meta.arg);
+            state.tobaccos = state.tobaccos?.filter((tobacco) => tobacco.id !== action.meta.arg);
         });
         builder.addCase(deleteProductAction.rejected, (state, { error }) => {
             state.status = FetchStatus.REJECTED;
@@ -103,6 +103,6 @@ const coffeeSlice = createSlice<ProductState, SliceCaseReducers<ProductState>>({
     },
 });
 
-export const resetProductState = coffeeSlice.actions.reset as ActionCreatorWithoutPayload<string>;
-export const { filterProducts } = coffeeSlice.actions;
-export const coffeeReducer = coffeeSlice.reducer;
+export const resetProductState = tobaccoSlice.actions.reset as ActionCreatorWithoutPayload<string>;
+export const { filterProducts } = tobaccoSlice.actions;
+export const tobaccoReducer = tobaccoSlice.reducer;

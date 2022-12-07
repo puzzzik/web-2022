@@ -49,7 +49,7 @@ transform: rotate(0deg) scale(1, 1);
 }
 
 50%{
-    transform: rotate(180deg) scale(1.5, 1.5);
+    transform: rotate(180deg) scale(1.25, 1.25);
 
 }
 
@@ -64,12 +64,12 @@ export const BannerStyled = styled.div`
     align-items: center;
     border: 1px solid ${COLORS.BorderColor};
     border-radius: 200px;
-    width: 360px;
-    height: 100%;
-    max-height: 500px;
+    width: 230px;
+    height: 80%;
+    max-height: 200px;
     font-style: italic;
 
-    font-size: 40px;
+    font-size: 20px;
     color: #ff2e51;
     text-align: center;
 

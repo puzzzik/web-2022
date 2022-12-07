@@ -14,7 +14,7 @@ export const CartPage = () => {
 
     const handleCardClick = useCallback(
         (id: number) => {
-            navigate(`/coffees/${id}`);
+            navigate(`/tobaccos/${id}`);
         },
         [navigate]
     );
@@ -32,7 +32,7 @@ export const CartPage = () => {
                     {cart.map((product) => (
                         <ProductCard
                             key={product.id}
-                            coffee={product}
+                            tobacco={product}
                             onClick={() => handleCardClick(product?.id ?? 0)}
                             inCart
                         />

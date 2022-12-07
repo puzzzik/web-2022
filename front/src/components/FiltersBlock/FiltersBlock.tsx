@@ -12,7 +12,7 @@ export const FiltersBlock = () => {
     const [showFilters, setShowFilters] = useState(false);
     const [strength, setStrength] = useState(0);
     const [checkedBrand, setCheckedBrand] = useState<string>("");
-    const { availableBrands } = useAppSelector((store) => store.coffee);
+    const { availableBrands } = useAppSelector((store) => store.tobacco);
 
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,7 @@
 import { COLORS } from "constants/colors";
 import styled from "styled-components";
 
-import { AiOutlineCoffee } from "@react-icons/all-files/ai/AiOutlineCoffee";
+import { GiCigar } from "@react-icons/all-files/gi/GiCigar";
 
 export const ProductPageStyled = styled.div`
     position: relative;
@@ -40,7 +40,7 @@ export const ButtonStyled = styled.button`
     z-index: 2;
 `;
 
-export const AiOutlineCoffeeStyled = styled(AiOutlineCoffee)`
+export const AiOutlinetobaccoStyled = styled(GiCigar)`
     position: absolute;
     left: -150px;
     top: 100px;

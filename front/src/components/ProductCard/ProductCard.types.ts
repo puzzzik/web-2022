@@ -4,6 +4,6 @@ export type ProductCardProps = Omit<
     React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
     "ref"
 > & {
-    coffee: Product;
+    tobacco: Product;
     inCart?: boolean;
 };

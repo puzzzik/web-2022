@@ -1,7 +1,7 @@
 import { COLORS } from "constants/colors";
 import { MAX_WIDTH } from "constants/common";
 import styled from "styled-components";
-import { SiCoffeescript } from "@react-icons/all-files/si/SiCoffeescript";
+import { GiCigar } from "@react-icons/all-files/gi/GiCigar";
 import { FaUserCircle } from "@react-icons/all-files/fa/FaUserCircle";
 import { BsCart } from "react-icons/bs";
 
@@ -67,7 +67,7 @@ export const ContainerStyled = styled.div`
     }
 `;
 
-export const SiCoffeescriptStyled = styled(SiCoffeescript)`
+export const GiCigarscriptStyled = styled(GiCigar)`
     cursor: pointer;
 `;
 

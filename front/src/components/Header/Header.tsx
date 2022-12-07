@@ -3,7 +3,7 @@ import {
     BsCartStyled,
     ContainerStyled,
     HeaderStyled,
-    SiCoffeescriptStyled,
+    GiCigarscriptStyled,
     CartStyled,
     LengthStyled,
 } from "components/Header/Header.style";
@@ -38,8 +38,8 @@ export const Header = (props: HeaderProps) => {
         <HeaderStyled {...props}>
             <ContainerStyled>
                 <Link to="/">
-                    <SiCoffeescriptStyled color={COLORS.TextColor2} size={40} />
-                    <h3>Titov's coffs</h3>
+                    <GiCigarscriptStyled color={COLORS.TextColor2} size={40} />
+                    <h3>Puzz's Tobacc</h3>
                 </Link>
                 <h2>{getPageTitle(location.pathname)}</h2>
                 {isAuth ? (

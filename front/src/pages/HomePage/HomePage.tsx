@@ -19,14 +19,14 @@ import { ProductCreateForm } from "components/ProductCreateForm";
 
 export const HomePage = () => {
     const dispatch = useAppDispatch();
-    const { coffees: coffeesSearch, status } = useAppSelector((store) => store.coffee);
+    const { tobaccos: tobaccosSearch, status } = useAppSelector((store) => store.tobacco);
     const canCreate = useAppSelector((store) => store.auth.isAdmin || store.auth.isStaff);
 
     const navigate = useNavigate();
 
     const handleCardClick = useCallback(
         (id: number) => {
-            navigate(`/coffees/${id}`);
+            navigate(`/tobaccos/${id}`);
         },
         [navigate]
     );
@@ -51,13 +51,13 @@ export const HomePage = () => {
                         </RightContainerStyled>
                         <ProductsStyled>
                             <FiltersBlock />
-                            {coffeesSearch?.length ? (
+                            {tobaccosSearch?.length ? (
                                 <>
-                                    {coffeesSearch?.map((coffee) => (
+                                    {tobaccosSearch?.map((tobacco) => (
                                         <ProductCard
-                                            key={coffee.id}
-                                            coffee={coffee}
-                                            onClick={() => handleCardClick(coffee?.id ?? 0)}
+                                            key={tobacco.id}
+                                            tobacco={tobacco}
+                                            onClick={() => handleCardClick(tobacco?.id ?? 0)}
                                         />
                                     ))}
                                 </>

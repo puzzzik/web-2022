@@ -12,7 +12,7 @@ import { deleteProductAction } from "store/products/products.actions";
 
 import { ProductCardProps } from "./ProductCard.types";
 
-export const ProductCard = ({ coffee, inCart = false, ...props }: ProductCardProps) => {
+export const ProductCard = ({ tobacco, inCart = false, ...props }: ProductCardProps) => {
     const dispatch = useAppDispatch();
     const products = useAppSelector((store) => store.cart.cart?.products);
     const canDelete = useAppSelector((store) => store.auth.isAdmin);
@@ -20,9 +20,9 @@ export const ProductCard = ({ coffee, inCart = false, ...props }: ProductCardPro
     const handleCartClick = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
-            dispatch(changeCartAction([...(products?.map((product) => product.id) ?? []), coffee.id]));
+            dispatch(changeCartAction([...(products?.map((product) => product.id) ?? []), tobacco.id]));
         },
-        [coffee.id, dispatch, products]
+        [tobacco.id, dispatch, products]
     );
 
     const handleDeleteProductFromCart = useCallback(
@@ -30,30 +30,30 @@ export const ProductCard = ({ coffee, inCart = false, ...props }: ProductCardPro
             e.stopPropagation();
             dispatch(
                 changeCartAction([
-                    ...(products?.filter((product) => product.id !== coffee.id).map((product) => product.id) ?? []),
+                    ...(products?.filter((product) => product.id !== tobacco.id).map((product) => product.id) ?? []),
                 ])
             );
         },
-        [coffee.id, dispatch, products]
+        [tobacco.id, dispatch, products]
     );
 
-    const isInCart = useMemo(() => products?.map((product) => product.id).includes(coffee.id), [coffee.id, products]);
+    const isInCart = useMemo(() => products?.map((product) => product.id).includes(tobacco.id), [tobacco.id, products]);
 
     const handleDeleteProduct = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
 
-            dispatch(deleteProductAction(coffee.id));
+            dispatch(deleteProductAction(tobacco.id));
         },
-        [coffee.id, dispatch]
+        [tobacco.id, dispatch]
     );
 
     return (
         <ProductCardStyled {...props}>
             <MainInfoStyled>
-                <h2>{coffee.name}</h2>
-                <span>{` ${coffee.type} • ${coffee.brand} • Крепкость ${coffee.strength}`}</span>
-                <p>{coffee.price} ₽</p>
+                <h2>{tobacco.name}</h2>
+                <span>{` ${tobacco.type} • ${tobacco.brand} • Крепкость ${tobacco.strength}`}</span>
+                <p>{tobacco.price} ₽</p>
             </MainInfoStyled>
             {!inCart ? (
                 <>

@@ -14,14 +14,14 @@ export const ProductPage = () => {
     const products = useAppSelector((store) => store.cart.cart?.products);
 
     const dispatch = useAppDispatch();
-    const { coffee } = useAppSelector((store) => store.coffee);
+    const { tobacco } = useAppSelector((store) => store.tobacco);
     const canEdit = useAppSelector((store) => store.auth.isAdmin || store.auth.isStaff);
 
     useEffect(() => {
-        if (!coffee) {
+        if (!tobacco) {
             dispatch(getProductByIdAction(Number(params?.id)));
         }
-    }, [coffee, dispatch, params.id]);
+    }, [tobacco, dispatch, params.id]);
 
     useEffect(
         () => () => {
@@ -31,41 +31,41 @@ export const ProductPage = () => {
     );
 
     const isInCart = useMemo(
-        () => !!coffee?.id && products?.map((product) => product.id).includes(coffee?.id),
-        [coffee?.id, products]
+        () => !!tobacco?.id && products?.map((product) => product.id).includes(tobacco?.id),
+        [tobacco?.id, products]
     );
 
     const handleCartClick = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
-            if (coffee?.id) {
-                dispatch(changeCartAction([...(products?.map((product) => product.id) ?? []), coffee?.id]));
+            if (tobacco?.id) {
+                dispatch(changeCartAction([...(products?.map((product) => product.id) ?? []), tobacco?.id]));
             }
         },
-        [coffee?.id, dispatch, products]
+        [tobacco?.id, dispatch, products]
     );
 
     return (
         <MainLayout>
             <ProductPageStyled>
-                <h1>{coffee?.name}</h1>
-                <h2>{coffee?.price} ₽</h2>
+                <h1>{tobacco?.name}</h1>
+                <h2>{tobacco?.price} ₽</h2>
                 {!canEdit && (
                     <DescriptionStyled>
                         <span>
-                            Бренд: <span>{coffee?.brand}</span>
+                            Бренд: <span>{tobacco?.brand}</span>
                         </span>
                         <span>
-                            Тип: <span>{coffee?.type}</span>
+                            Тип: <span>{tobacco?.type}</span>
                         </span>
                         <span>
-                            Крепкость: <span>{coffee?.strength}</span>
+                            Крепость: <span>{tobacco?.strength}</span>
                         </span>
                     </DescriptionStyled>
                 )}
                 {isInCart ? <TextStyled>В корзине</TextStyled> : <Button onClick={handleCartClick}>В корзину</Button>}
 
-                {canEdit && <ProductCreateForm isForEdit initialValues={coffee} productId={Number(params.id)} />}
+                {canEdit && <ProductCreateForm isForEdit initialValues={tobacco} productId={Number(params.id)} />}
             </ProductPageStyled>
         </MainLayout>
     );
