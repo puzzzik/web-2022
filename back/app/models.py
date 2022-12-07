@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+from django.utils.timezone import now as date_now
 
 from authentication.models import User
 
@@ -25,7 +25,8 @@ class Cart(models.Model):
 
 
 class Order(models.Model):
-    date = models.DateField(default=timezone.now, blank=True)
+    # date = models.DateField(default=date_now, blank=True)
+    date = models.DateTimeField(default=date_now, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders', related_query_name='orders_query')
     products = models.ManyToManyField(Product, verbose_name="products")
 

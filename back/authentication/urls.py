@@ -1,7 +1,5 @@
 from django.urls import path, re_path, include
 from rest_framework import routers
-
-
 from .views import *
 
 app_name = 'authentication'
