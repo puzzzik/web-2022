@@ -1,12 +1,12 @@
+import django.utils.timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from .permissions import IsStaff, IsSuperUser
+from .permissions import IsStaff,IsSuperUser
 from app.serializers import *
-from django.utils.timezone import now as date_now
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -52,12 +52,12 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # def destroy(self, request, pk=None, **kwargs):
-    #     try:
-    #         Product.objects.filter(pk=pk).delete()
-    #     except Exception:
-    #         return Response(self.serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
-    #     return Response({"status": "ok"}, status=status.HTTP_200_OK)
+    def destroy(self, request, pk=None, **kwargs):
+        try:
+            Product.objects.filter(pk=pk).delete()
+        except Exception:
+            return Response(self.serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": "ok"}, status=status.HTTP_200_OK)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -100,7 +100,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         user = User.objects.get(pk=request_user.pk)
 
         cart = Cart.objects.get(user=user)
-        order = Order(user=user)
+        order = Order(user=user, date=django.utils.timezone.now())
         order.save()
         products = cart.products.all()
         order.products.set(products)
@@ -170,9 +170,8 @@ class CartViewSet(viewsets.GenericViewSet):
         request_user = request.user
         user = User.objects.get(pk=request_user.pk)
         cart = user.get_cart()
-        # cart = Cart.objects.get(user__id=user.pk)
         cart_serializer = CartSerializer(partial=True)
-        new_cart = cart_serializer.update(instance=cart, validated_data=request.data)
+        new_cart = cart_serializer.update(cart, request.data)
         return Response(CartSerializer(new_cart).data, status=status.HTTP_200_OK)
 
     def list(self, request, **kwargs):
