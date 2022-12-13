@@ -33,7 +33,7 @@ export const ProductCreateForm = ({ isForEdit = false, productId, initialValues 
             >
                 {({ handleSubmit }) => (
                     <>
-                        <TitleStyled>{isForEdit ? "Редактировать njdfh" : "Добавьте новый продукт"}</TitleStyled>
+                        <TitleStyled>{isForEdit ? "Редактировать товар" : "Добавьте новый продукт"}</TitleStyled>
                         <span>Название</span>
                         <InputField name="name" placeholder="Название" />
                         <span>Бренд</span>

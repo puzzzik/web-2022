@@ -17,7 +17,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart',
-                                related_query_name='cart_query')
+                                related_query_name='cart')
     products = models.ManyToManyField(Product, verbose_name="products", blank=True)
 
     def __str__(self) -> str:

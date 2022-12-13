@@ -77,6 +77,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_cart(self):
         try:
             cart = self.cart
+            return cart
         except:
             return None
-        return self.cart
