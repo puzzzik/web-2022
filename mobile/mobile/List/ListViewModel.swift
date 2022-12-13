@@ -20,9 +20,8 @@ final class ListViewModel: ObservableObject {
             switch result {
             case .success(let products):
                 self.products = products
-            case .failure(let failure):
-                assertionFailure("\(failure)")
-                break
+            case .failure(_):
+                self.products = [Product]()
             }
         }
     }

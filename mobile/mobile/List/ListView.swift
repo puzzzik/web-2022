@@ -39,21 +39,15 @@ func cells(_ product: Product) -> some View {
     @ViewBuilder
     var cellView: some View {
         HStack {
-            VStack {
-                HStack {
-                    Text("\(product.name ?? "Пусто")" )
-                        .font(.title2)
-                    Text("\(product.brand ?? "Пусто")")
-                        .font(.title3)
-                    Spacer()
-                }
-                HStack {
-                    Text("тип \(product.type ?? "Пусто"),")
-                        .font(.callout)
-                    Text("крепость \(product.strength ?? 0)")
-                        .font(.callout)
-                    Spacer()
-                }
+            VStack(alignment: .leading, spacing: 0) {
+                Text("\(product.name ?? "Пусто")")
+                    .font(.title2)
+                Text("Бренд \(product.brand ?? "Пусто")")
+                    .font(.title3)
+                Text("Тип \(product.type ?? "Пусто")")
+                    .font(.callout)
+                Text("Крепость \(product.strength ?? 0)")
+                    .font(.callout)
             }
             Spacer()
             Text("\(product.price ?? 0) ₽")
