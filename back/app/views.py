@@ -71,8 +71,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer  # Сериализатор для модели
     filterset_fields = ('user__id',)
-    ordering_fields = ['date']
-    ordering = ['-date']
+    ordering_fields = ['order_date']
+    ordering = ['-order_date']
 
     def get_permissions(self):
         if self.action == 'get_orders' or self.action == 'create_new_order':
