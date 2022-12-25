@@ -29,7 +29,6 @@ class Order(models.Model):
         ordered = "ordered"
         approved = 'approved'
         picked_up = 'picked_up'
-        canceled = 'canceled'
         rejected = 'rejected'
 
     order_date = models.DateTimeField(default=date_now, blank=True)

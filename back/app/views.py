@@ -156,14 +156,13 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response(e.messages, status=status.HTTP_400_BAD_REQUEST)
 
         ord_status = order.status
-        print(prev_status)
         if prev_status == Order.Status.ordered:
-            if ord_status not in [Order.Status.approved, Order.Status.rejected, Order.Status.canceled]:
+            if ord_status not in [Order.Status.approved, Order.Status.rejected]:
                 return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
         elif prev_status == Order.Status.approved:
-            if ord_status not in [Order.Status.picked_up, Order.Status.canceled]:
+            if ord_status not in [Order.Status.picked_up]:
                 return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
-        elif prev_status in [Order.Status.canceled, Order.Status.rejected]:
+        elif prev_status == Order.Status.rejected:
             if ord_status not in [Order.Status.ordered]:
                 return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
         if ord_status == Order.Status.approved:
@@ -172,6 +171,11 @@ class OrderViewSet(viewsets.ModelViewSet):
             order.pickup_date = date_now
         elif ord_status == Order.Status.ordered:
             order.order_date = date_now
+        elif ord_status in [Order.Status.rejected]:
+            user = request.user
+            cart = user.get_cart()
+            products = order.products.all()
+            cart.products.set(products)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request, **kwargs):
