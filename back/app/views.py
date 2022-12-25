@@ -1,5 +1,5 @@
 import django.utils.timezone
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiExample
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -7,6 +7,9 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from rest_framework.response import Response
 from .permissions import IsStaff, IsSuperUser
 from app.serializers import *
+from django.core.exceptions import ValidationError
+from django.utils.timezone import now as date_now
+
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -103,7 +106,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         user = User.objects.get(pk=request_user.pk)
 
         cart = Cart.objects.get(user=user)
-        order = Order(user=user, date=django.utils.timezone.now())
+        order = Order(user=user, order_date=django.utils.timezone.now())
         order.save()
         products = cart.products.all()
         order.products.set(products)
@@ -117,26 +120,58 @@ class OrderViewSet(viewsets.ModelViewSet):
         OpenApiExample(
             'Valid example 1',
             summary='application.json',
-            description='status',
             value={
                 'status': "string",
             },
             request_only=True,  # signal that example only applies to requests
             response_only=False,
+            status_codes=[200]
+        ),
+        OpenApiExample(
+            'Bad example 2',
+            value={"Value 'string' is not a valid choice."},
+            request_only=False,  # signal that example only applies to requests
+            response_only=True,
+            status_codes=[400]
         )
-    ])
+    ],
+        responses={
+            200: OrderSerializer(),
+            400: inline_serializer(name="validation Error", fields={'status': serializers.CharField()})
+        }
+    )
     @action(detail=True, methods=['post'])
     def change_status(self, request, pk=None):
 
         try:
             order = Order.objects.get(pk=pk)
+            prev_status = order.status
         except Order.DoesNotExist:
             return Response({'message': 'The order does not exist'}, status=status.HTTP_404_NOT_FOUND)
         data = request.data
-
         serializer = self.serializer_class(order)
-        serializer.update(order, data)
+        try:
+            serializer.update(order, data)
+        except ValidationError as e:
+            return Response(e.messages, status=status.HTTP_400_BAD_REQUEST)
 
+        ord_status = order.status
+        print(prev_status)
+        if prev_status == Order.Status.ordered:
+            if ord_status not in [Order.Status.approved, Order.Status.rejected, Order.Status.canceled]:
+                return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
+        elif prev_status == Order.Status.approved:
+            if ord_status not in [Order.Status.picked_up, Order.Status.canceled]:
+                return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
+        elif prev_status in [Order.Status.canceled, Order.Status.rejected]:
+            if ord_status not in [Order.Status.ordered]:
+                return Response([f"Value '{ord_status}' is not a valid choice."], status=status.HTTP_400_BAD_REQUEST)
+        if ord_status == Order.Status.approved:
+            order.approval_date = date_now
+        elif ord_status == Order.Status.picked_up:
+            order.pickup_date = date_now
+        elif ord_status == Order.Status.ordered:
+            order.order_date = date_now
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request, **kwargs):
